@@ -1,0 +1,6 @@
+{
+  "name": "Comfoair HVAC lovelace card",
+  "content_in_root": true,
+  "render_readme": true,
+  "filename": "comfoair-card.js"
+}
