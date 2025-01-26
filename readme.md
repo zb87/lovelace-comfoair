@@ -22,7 +22,10 @@
 1. Copy the `lovelace-comfoair` directory to the `www` directory of Home Assistant config directory
 1. Home Assistant -> Settings -> Dashboards -> "..." button -> Resources
 1. Add a JavaScript module resource with the path `/local/lovelace-comfoair/comfoair-card.js`
-1. In Home Assistant dashboard page, add a card with the following config:
+
+## Add to dashboard
+
+In Home Assistant dashboard page, add a card with the following config:
 
 ```
 - type: custom:comfoair-card
