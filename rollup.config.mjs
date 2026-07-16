@@ -1,40 +1,39 @@
 import resolve from "@rollup/plugin-node-resolve";
 import terser from "@rollup/plugin-terser";
 import typescript from "@rollup/plugin-typescript";
-import { readFileSync } from "fs";
 
-/**
- * Rollup plugin to inline SVG files as base64 data URIs.
- * Usage in source: import svgDataUri from './assets/heat.svg';
- */
-function svgInline() {
+const isDev = process.env.CARD_ENV === "dev" || Boolean(process.env.ROLLUP_WATCH);
+const production = !isDev;
+
+const cardTag = isDev ? "comfoair-card-test" : "comfoair-card";
+const outputFile = isDev ? "dist/comfoair-card-test.js" : "dist/comfoair-card.js";
+
+function cardTagPlugin(tag) {
   return {
-    name: "svg-inline",
-    load(id) {
-      if (id.endsWith(".svg")) {
-        const svg = readFileSync(id, "utf8");
-        const base64 = Buffer.from(svg).toString("base64");
-        const dataUri = `data:image/svg+xml;base64,${base64}`;
-        return `export default "${dataUri}";`;
+    name: "card-tag-replace",
+    transform(code, id) {
+      if (id.includes("src")) {
+        return {
+          code: code.replace(/CARD_TAG_PLACEHOLDER/g, tag),
+          map: null,
+        };
       }
-      return null;
     },
   };
 }
 
-const production = !process.env.ROLLUP_WATCH;
-
 export default {
   input: "src/comfoair-card.ts",
   output: {
-    file: "dist/comfoair-card.js",
+    file: outputFile,
     format: "iife",
     sourcemap: !production,
   },
+  treeshake: false,
   plugins: [
-    svgInline(),
     resolve(),
     typescript(),
+    cardTagPlugin(cardTag),
     production && terser(),
   ],
 };

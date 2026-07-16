@@ -5,7 +5,8 @@
   "main": "dist/comfoair-card.js",
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c --watch",
+    "dev": "rollup -c --watch --environment CARD_ENV:dev",
+    "preview": "npm run build && node scripts/build-preview.mjs",
     "lint": "tsc --noEmit"
   },
   "repository": {
@@ -24,6 +25,7 @@
     "lit": "^3.2.0"
   },
   "devDependencies": {
+    "@mdi/js": "^7.4.47",
     "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.0",

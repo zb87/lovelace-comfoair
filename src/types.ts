@@ -18,6 +18,9 @@ export interface ComfoAirCardConfig {
    *   - etc.
    */
   entity_prefix?: string;
+
+  /** Manual language override (e.g. "en", "zh-Hans", "zh-Hant"). */
+  lang?: string;
 }
 
 /** Shape of the Home Assistant state object for a single entity. */
@@ -28,5 +31,14 @@ export interface HassEntity {
 
 /** Minimal subset of the Home Assistant object exposed to Lovelace cards. */
 export interface HomeAssistant {
+  language: string;
+  locale?: {
+    language: string;
+  };
   states: Record<string, HassEntity>;
+  callService(
+    domain: string,
+    service: string,
+    serviceData?: Record<string, unknown>
+  ): Promise<void>;
 }

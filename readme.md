@@ -27,12 +27,14 @@
 
 ## Add to dashboard
 
-In Home Assistant dashboard page, add a card with the following config:
+You can add this card directly from the visual Lovelace card picker UI! Simply search for **ComfoAir Card** in the card library and select your climate entity.
+
+Alternatively, you can configure it via YAML:
 
 ```yaml
-- type: custom:comfoair-card
-  entity: <Entity ID starts with climate>
-  entity_prefix: comfoair  # optional, defaults to "comfoair"
+type: custom:comfoair-card
+entity: climate.comfoair
+entity_prefix: comfoair  # optional, defaults to "comfoair"
 ```
 
 ## Development

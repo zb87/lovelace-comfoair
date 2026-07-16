@@ -1,65 +1,218 @@
-import { css, unsafeCSS } from "lit";
-import heatSvg from "./assets/heat.svg";
-import bypassSvg from "./assets/bypass.svg";
-
-const heatBg = unsafeCSS(heatSvg);
-const bypassBg = unsafeCSS(bypassSvg);
+import { css } from "lit";
 
 export const cardStyles = css`
-  .container {
-    padding: 10px;
+  :host {
+    font-variant-numeric: tabular-nums;
+    display: block;
+    container-type: inline-size;
   }
-  .bg-heat {
-    background-image: url("${heatBg}");
-    height: 200px;
-    background-size: 100% 75%;
-    background-repeat: no-repeat;
-    background-position-y: 45%;
+
+  ha-card {
+    display: block;
+    overflow: hidden;
+    background: var(--card-background-color, var(--ha-card-background, #fff));
+    color: var(--primary-text-color, #212121);
   }
-  .bg-bypass {
-    background-image: url("${bypassBg}");
-    height: 200px;
-    background-size: 100% 75%;
-    background-repeat: no-repeat;
-    background-position-y: 45%;
-  }
-  .flex-container {
+
+  .card-header-row {
+    position: relative;
+    z-index: 2;
     display: flex;
     justify-content: space-between;
-    height: 100%;
+    align-items: center;
+    padding: 12px 16px 0px 16px;
+    pointer-events: none;
   }
-  .flex-col-main {
+
+  .card-header-row > * {
+    pointer-events: auto;
+  }
+
+  .card-title {
+    font-size: 1.15em;
+    font-weight: 600;
+    color: var(--primary-text-color, #212121);
+    letter-spacing: 0.01em;
+  }
+
+  .clickable {
+    cursor: pointer;
+    user-select: none;
+    transition: opacity 0.15s ease;
+  }
+
+  .clickable:hover {
+    opacity: 0.75;
+  }
+
+  .header-icons {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-grow: 1;
-    flex-basis: 0;
-    text-align: center;
-    padding: 30px 0px;
+    align-items: center;
+    gap: 12px;
   }
-  .flex-col-out {
+
+  .header-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-text-color, #727272);
+  }
+
+  .header-icon ha-icon {
+    --mdc-icon-size: 20px;
+  }
+
+  .diagram-wrapper {
+    position: relative;
+    z-index: 1;
+    margin-top: -26px;
+    padding: 0px 8px 0px 8px;
+  }
+
+  .diagram {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* ── House outline ───────────────────────────── */
+
+  .house-fill {
+    fill: var(--primary-text-color, #212121);
+    fill-opacity: 0.03;
+  }
+
+  .house-outline {
+    fill: none;
+    stroke: var(--primary-text-color, #212121);
+    stroke-width: 2;
+    stroke-opacity: 0.2;
+    stroke-linejoin: round;
+  }
+
+  /* ── SVG text ────────────────────────────────── */
+
+  .label {
+    fill: var(--secondary-text-color, #727272);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+  }
+
+  .temp-text {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .fan-text {
+    fill: var(--secondary-text-color, #727272);
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  .filter-badge-bg {
+    fill: var(--error-color, #f44336);
+  }
+
+  .filter-badge-text {
+    fill: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .filter-badge-icon {
+    fill: #ffffff;
+  }
+
+  .bypass-badge-bg {
+    fill: var(--warning-color, #ff9800);
+  }
+
+  .bypass-badge-text {
+    fill: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── Ducts & arrows ──────────────────────────── */
+
+  .duct {
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    opacity: 0.85;
+  }
+
+  .arrow {
+    fill: var(--card-background-color, var(--ha-card-background, #ffffff));
+    stroke: none;
+    opacity: 0.75;
+  }
+
+  /* ── Bottom Controls Bar ─────────────────────── */
+
+  .controls-bar {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-grow: 1;
-    flex-basis: 0;
-    text-align: left;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 12px 8px 12px;
+    border-top: none;
   }
-  .flex-col-in {
+
+  .fan-buttons {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-grow: 1;
-    flex-basis: 0;
-    text-align: right;
+    align-items: center;
+    gap: 6px;
+    background: var(--secondary-background-color, rgba(128, 128, 128, 0.08));
+    padding: 4px;
+    border-radius: 12px;
   }
-  .fan-state {
-    padding-top: 15px;
+
+  .fan-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border: none;
+    background: transparent;
+    color: var(--secondary-text-color, #727272);
+    padding: 9px 20px;
+    border-radius: 9px;
+    font-size: 0.92em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+    text-transform: capitalize;
   }
-  .inactive {
-    opacity: 0.5;
+
+  .fan-btn ha-icon {
+    --mdc-icon-size: 19px;
   }
-  .warning {
-    color: #d80707db;
+
+  /* Responsive: Hide button text on narrow containers (<380px) */
+  @container (max-width: 380px) {
+    .fan-btn span {
+      display: none;
+    }
+    .fan-btn {
+      padding: 9px 15px;
+    }
+  }
+
+  .fan-btn:hover {
+    color: var(--primary-text-color, #212121);
+    background: rgba(128, 128, 128, 0.12);
+  }
+
+  .fan-btn.active {
+    background: var(--primary-color, #03a9f4);
+    color: var(--text-primary-color, #ffffff);
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  .fan-btn.active ha-icon {
+    color: var(--text-primary-color, #ffffff);
   }
 `;
