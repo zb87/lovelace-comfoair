@@ -187,7 +187,7 @@ ${jsCode}
     const mockWinter = createMockHass({});
 
     const mockSummer = createMockHass({
-      "climate.comfoair": { state: "auto", attributes: { fan_mode: "medium", temperature: 24 } },
+      "climate.comfoair": { state: "auto", attributes: { fan_mode: "high", temperature: 24 } },
       "sensor.comfoair_outside_temperature": { state: "18.5", attributes: {} },
       "sensor.comfoair_exhaust_temperature": { state: "26", attributes: {} },
       "sensor.comfoair_return_temperature": { state: "26", attributes: {} },
