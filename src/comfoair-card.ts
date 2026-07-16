@@ -122,6 +122,26 @@ export class ComfoAirCard extends LitElement {
     const returnLvl = Math.trunc(this.sensorNumber("return_air_level"));
     const supplyLvl = Math.trunc(this.sensorNumber("supply_air_level"));
 
+    // Upper-right indoor location (top duct end) & lower-right indoor location (bottom duct end)
+    // When bypass is ON (straight parallel ducts):
+    //   - Top duct comes straight from Outdoor Intake -> Supply Air (supply_temperature, supply_air_level)
+    //   - Bottom duct goes straight to Outdoor Exhaust -> Return Air (return_temperature, return_air_level)
+    // When bypass is OFF (Heat Exchange mode, X crossing):
+    //   - Upper right duct leads to lower left Exhaust -> Return Air (return_temperature, return_air_level)
+    //   - Lower right duct comes from upper left Intake -> Supply Air (supply_temperature, supply_air_level)
+
+    const upperIndoorStr = bypass ? supplyStr : returnStr;
+    const upperIndoorClr = bypass ? supplyClr : returnClr;
+    const upperIndoorLvl = bypass ? supplyLvl : returnLvl;
+    const upperIndoorTempSensor = bypass ? "supply_temperature" : "return_temperature";
+    const upperIndoorLvlSensor = bypass ? "supply_air_level" : "return_air_level";
+
+    const lowerIndoorStr = bypass ? returnStr : supplyStr;
+    const lowerIndoorClr = bypass ? returnClr : supplyClr;
+    const lowerIndoorLvl = bypass ? returnLvl : supplyLvl;
+    const lowerIndoorTempSensor = bypass ? "return_temperature" : "supply_temperature";
+    const lowerIndoorLvlSensor = bypass ? "return_air_level" : "supply_air_level";
+
     // Climate state attributes
     const climateEntity = this.hass.states[this.config.entity];
     const currentFanMode =
@@ -210,15 +230,15 @@ export class ComfoAirCard extends LitElement {
 
             <!-- Temperature values (clickable for temperature sensor info) -->
             <text class="temp-text clickable" x="60" y="101" text-anchor="middle" fill="${outsideClr}" @click=${() => this.openMoreInfo("outside_temperature")} title="${localize("sensors.outside_temperature", this.hass, this.config)}">${outsideStr}°C</text>
-            <text class="temp-text clickable" x="330" y="101" text-anchor="middle" fill="${returnClr}" @click=${() => this.openMoreInfo("return_temperature")} title="${localize("sensors.return_temperature", this.hass, this.config)}">${returnStr}°C</text>
+            <text class="temp-text clickable" x="330" y="101" text-anchor="middle" fill="${upperIndoorClr}" @click=${() => this.openMoreInfo(upperIndoorTempSensor)} title="${localize(`sensors.${upperIndoorTempSensor}`, this.hass, this.config)}">${upperIndoorStr}°C</text>
             <text class="temp-text clickable" x="60" y="169" text-anchor="middle" fill="${exhaustClr}" @click=${() => this.openMoreInfo("exhaust_temperature")} title="${localize("sensors.exhaust_temperature", this.hass, this.config)}">${exhaustStr}°C</text>
-            <text class="temp-text clickable" x="330" y="169" text-anchor="middle" fill="${supplyClr}" @click=${() => this.openMoreInfo("supply_temperature")} title="${localize("sensors.supply_temperature", this.hass, this.config)}">${supplyStr}°C</text>
+            <text class="temp-text clickable" x="330" y="169" text-anchor="middle" fill="${lowerIndoorClr}" @click=${() => this.openMoreInfo(lowerIndoorTempSensor)} title="${localize(`sensors.${lowerIndoorTempSensor}`, this.hass, this.config)}">${lowerIndoorStr}°C</text>
 
             <!-- Fan data (clickable for RPM & air level info) -->
             <text class="fan-text clickable" x="60" y="144" text-anchor="middle" @click=${() => this.openMoreInfo("intake_fan_rpm")} title="${localize("sensors.intake_fan_rpm", this.hass, this.config)}">${intakeRpm} rpm</text>
-            <text class="fan-text clickable" x="330" y="144" text-anchor="middle" @click=${() => this.openMoreInfo("return_air_level")} title="${localize("sensors.return_air_level", this.hass, this.config)}">${returnLvl}%</text>
+            <text class="fan-text clickable" x="330" y="144" text-anchor="middle" @click=${() => this.openMoreInfo(upperIndoorLvlSensor)} title="${localize(`sensors.${upperIndoorLvlSensor}`, this.hass, this.config)}">${upperIndoorLvl}%</text>
             <text class="fan-text clickable" x="60" y="212" text-anchor="middle" @click=${() => this.openMoreInfo("exhaust_fan_rpm")} title="${localize("sensors.exhaust_fan_rpm", this.hass, this.config)}">${exhaustRpm} rpm</text>
-            <text class="fan-text clickable" x="330" y="212" text-anchor="middle" @click=${() => this.openMoreInfo("supply_air_level")} title="${localize("sensors.supply_air_level", this.hass, this.config)}">${supplyLvl}%</text>
+            <text class="fan-text clickable" x="330" y="212" text-anchor="middle" @click=${() => this.openMoreInfo(lowerIndoorLvlSensor)} title="${localize(`sensors.${lowerIndoorLvlSensor}`, this.hass, this.config)}">${lowerIndoorLvl}%</text>
           </svg>
         </div>
 
