@@ -40,6 +40,12 @@ export class ComfoAirCardEditor extends LitElement {
 
     const schema = [
       {
+        name: "name",
+        label: localize("editor.name", this.hass, this._config),
+        helper: localize("editor.name_helper", this.hass, this._config),
+        selector: { text: {} },
+      },
+      {
         name: "entity",
         label: localize("editor.entity", this.hass, this._config),
         selector: { entity: { domain: "climate" } },

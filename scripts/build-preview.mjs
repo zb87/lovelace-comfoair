@@ -143,7 +143,7 @@ ${jsCode}
   <div class="preview-section">
     <!-- LIGHT THEME (LEFT) -->
     <div class="card-wrapper theme-light">
-      <div class="card-label">Light Theme (Heat Exchange ON — Winter Mode)</div>
+      <div class="card-label">Light Theme (Winter Mode — Filter Warning)</div>
       <comfoair-card id="card-light"></comfoair-card>
     </div>
 
@@ -157,7 +157,7 @@ ${jsCode}
   <script>
     function createMockHass(overrideStates = {}) {
       const states = {
-        "climate.comfoair": { state: "auto", attributes: { fan_mode: "medium", temperature: 24 } },
+        "climate.comfoair": { state: "auto", attributes: { friendly_name: "ComfoAir", fan_mode: "medium", temperature: 24 } },
         "sensor.comfoair_outside_temperature": { state: "10", attributes: {} },
         "sensor.comfoair_exhaust_temperature": { state: "12", attributes: {} },
         "sensor.comfoair_return_temperature": { state: "25.5", attributes: {} },
@@ -184,7 +184,9 @@ ${jsCode}
       };
     }
 
-    const mockWinter = createMockHass({});
+    const mockWinter = createMockHass({
+      "sensor.comfoair_filter_status": { state: "Full", attributes: {} },
+    });
 
     const mockSummer = createMockHass({
       "climate.comfoair": { state: "auto", attributes: { fan_mode: "high", temperature: 24 } },
@@ -232,7 +234,7 @@ console.log(`[Preview Build] Preview HTML generated at ${outFile}`);
 
 try {
   const previewPng = resolve(rootDir, "preview.png");
-  execSync(`google-chrome --headless --disable-gpu --window-size=1020,550 --screenshot="${previewPng}" "file://${outFile}"`, { stdio: "ignore" });
+  execSync(`google-chrome --headless --disable-gpu --window-size=970,430 --screenshot="${previewPng}" "file://${outFile}"`, { stdio: "ignore" });
   console.log(`[Preview Build] Preview screenshot saved to ${previewPng}`);
 } catch (e) {
   // Ignore if chrome screenshot fails

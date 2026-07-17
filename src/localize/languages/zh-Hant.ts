@@ -28,6 +28,9 @@ export default {
     supply_air_level: "送風檔位",
   },
   editor: {
+    name: "名稱",
+    name_helper:
+      "卡片標題 (預設使用新風實體的友好名稱)",
     entity: "新風實體",
     entity_prefix: "實體前綴 (預設: comfoair)",
     entity_prefix_helper:

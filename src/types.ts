@@ -4,6 +4,9 @@
 
 /** Card configuration provided by the user in the Lovelace YAML. */
 export interface ComfoAirCardConfig {
+  /** Optional title override for the card header. Defaults to the climate entity's friendly name. */
+  name?: string;
+
   /** The climate entity ID, e.g. "climate.comfoair". */
   entity: string;
 

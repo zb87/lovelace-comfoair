@@ -28,6 +28,9 @@ export default {
     supply_air_level: "Supply Air Level",
   },
   editor: {
+    name: "Name (override)",
+    name_helper:
+      "Header title override (defaults to climate entity friendly name)",
     entity: "Climate Entity",
     entity_prefix: "Entity Prefix (default: comfoair)",
     entity_prefix_helper:

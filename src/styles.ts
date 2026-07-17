@@ -100,13 +100,13 @@ export const cardStyles = css`
   }
 
   .temp-text {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 700;
   }
 
   .fan-text {
     fill: var(--secondary-text-color, #727272);
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 500;
   }
 
@@ -116,7 +116,7 @@ export const cardStyles = css`
 
   .filter-badge-text {
     fill: #ffffff;
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.04em;
   }

@@ -28,6 +28,9 @@ export default {
     supply_air_level: "送风档位",
   },
   editor: {
+    name: "名称",
+    name_helper:
+      "卡片标题 (默认使用新风实体的友好名称)",
     entity: "新风实体",
     entity_prefix: "实体前缀 (默认: comfoair)",
     entity_prefix_helper:
